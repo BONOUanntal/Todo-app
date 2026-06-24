@@ -8,12 +8,32 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
+        $tasks = Task::query();
 
-        return view('tasks.index', compact('tasks'));
+        if ($request->status === 'completed') {
+
+            $tasks->where(
+                'completed',
+                true
+            );
+
+        }
+
+        return view(
+            'tasks.index',
+            [
+                'tasks' => $tasks->get()
+            ]
+        );
     }
+    // public function index()
+    // {
+    //     $tasks = Task::all();
+
+    //     return view('tasks.index', compact('tasks'));
+    // }
 
     public function store(Request $request)
     {
@@ -45,6 +65,15 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
+
+        return redirect('/');
+    }
+
+    public function toggle(Task $task)
+    {
+        $task->update([
+            'completed' => !$task->completed
+        ]);
 
         return redirect('/');
     }
