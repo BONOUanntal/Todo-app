@@ -46,7 +46,7 @@
 
 @foreach($tasks->where('completed', false) as $task)
 
-    <div class="bg-white shadow rounded-lg p-4 mb-4">
+    <div class="bg-white shadow-lg rounded-xl p-6 mb-4">
 
         <p>
             @if($task->completed)
@@ -84,23 +84,12 @@
     
     <div class="flex gap-2 mt-3">
 
-        <form method="POST" action="/tasks/{{ $task->id }}">
-            @csrf
-            @method('PUT')
-    
-            <!-- <input
-                type="text"
-                name="title"
-                value="{{ $task->title }}"
-            > -->
-    
-            <button
-                class="bg-yellow-500 text-white px-3 py-1 rounded"
-            >
-                Modifier
-            </button>
-    
-        </form>
+        <a
+            href="/tasks/{{ $task->id }}/edit"
+            class="bg-yellow-500 text-white px-3 py-1 rounded"
+        >
+            Modifier
+        </a>
     
         <form method="POST" action="/tasks/{{ $task->id }}/complete">
             @csrf
